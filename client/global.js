@@ -1,4 +1,4 @@
-function card(suit, color, value){
+function Card(suit, color, value){
   this.color = color;
   this.suit = suit;
   this.value = value;
@@ -36,4 +36,13 @@ function cardStack(){
   this.add = push;
   this.draw = pop;
   this.top = 0;
+}
+
+function push(card){
+
+  this.cardData[this.top++] = card;
+}
+
+function pop(){
+  return this.cardData[--this.top];
 }

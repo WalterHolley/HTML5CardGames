@@ -16,7 +16,8 @@ function deck(){
   this.drawCards = drawCards;
   this.buildDeck = buildDeck;
   this.init = initDeck;
-  this.isDeckEmpty = false;
+  this.isDeckEmpty = true;
+  this.shuffleDeck = shuffleDeck;
 
 }
 
@@ -26,11 +27,8 @@ function drawCards(){
   if(numberOfCards == 1){
     return this.cards.shift();
   }
-  else{
-    var
 
-  }
-  this.cards
+
 }
 
 //Builds a deck from the discard pile
@@ -40,25 +38,57 @@ function buildDeck(){
 
 }
 
+//Randomizes the cards currently in the deck
+function shuffleDeck(){
+  var deckSize = this.cards.top;
+  var shuffledDeck = new Array(deckSize);
+
+  var i;
+
+  for(i = deckSize - 1; i >= 0; i--){
+    var cardId = Math.floor(Math.random() * (4 - 1)) + 1;
+    console.log(cardId);
+    shuffledDeck[i] = this.cards.cardData[cardId];
+  }
+
+  this.cards.cardData = shuffledDeck;
+}
+
 //Initializes the deck with a fresh set of cards
 function initDeck(){
   //create card objects
+  this.cards = new cardStack();
+
   var s;
   for(s in suit){
-    var cardSu 
-    if(s == suit.heart || s == suit.diamond){
-      cardObject.color
+
+    var v;
+    for(v in cardFace){
+      var cardObject = new Card();
+      cardObject.suit = suit[s];
+      cardObject.value = cardFace[v];
+      if(suit[s] == suit.heart || suit[s] == suit.diamond){
+        cardObject.color = cardColor.red;
+      }
+      else{
+        cardObject.color = cardColor.black;
+      }
+
+      this.cards.add(cardObject);
     }
 
 
   }
-
+  this.shuffleDeck();
 
 }
 
 //Initializes game
 function initGame(){
 
+this.table.deck.init();
 
 
 }
+
+Game.init();
