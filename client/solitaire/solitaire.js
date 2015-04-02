@@ -46,7 +46,7 @@ function shuffleDeck(){
   var i;
 
   for(i = deckSize - 1; i >= 0; i--){
-    var cardId = Math.floor(Math.random() * (4 - 1)) + 1;
+    var cardId = Math.floor(Math.random() * i);
     console.log(cardId);
     shuffledDeck[i] = this.cards.cardData[cardId];
   }
