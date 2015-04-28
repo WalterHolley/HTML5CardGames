@@ -3,13 +3,45 @@ var gl = null,
 canvas = null,
 glProgram = null,
 fragmentShader = null,
-vertexShader = null;
+vertexShader = null,
+MAX_FRAME_SKIP = 10;
 
 var vertexPositionAttribute = null,
 trianglesVerticeBuffer = null,
 vertexColorAttribute = null,
 trianglesColorBuffer = null;
 var angle = 0.0;
+
+//primary game object.  will controll gamestate and rendering
+var game = new Object();
+game.running = false;
+game.gameStarted = false;
+game.game = null;
+game.framesPerSecond = 60;
+game.run = run;
+game.init = InitWebGL;
+
+
+//Initialize OpenGL
+function init(){
+
+}
+
+//begins running the game
+function run(){
+	game.running = true;
+	var gameTickNext = (new Date).getTime(),
+	tickInterval = 10000 / game.framesPerSecond;
+
+	while(game.running && (new Date).getTime() > gameTickNext ){
+		game.game.update();
+		gameTickNext += tickInterval;
+
+	}
+
+	game.game.draw();
+
+}
 
 
 function InitWebGL()
@@ -24,7 +56,7 @@ function InitWebGL()
 	}
 	catch(ex)
 	{
-
+			alert("This Browser doesn't support webGL.  Please update or change your browser.");
 	}
 
 	if(gl)
@@ -33,16 +65,32 @@ function InitWebGL()
 		InitShaders();
 		SetupBuffers();
 
-		//primary game loop
-		(function AnimLoop(){
-			SetupWebGL();
-			SetupDynamicBuffers();
-			DrawScene();
-			//Load required files
-			$.getScript("rAF.js", function(){
-				requestAnimationFrame(AnimLoop, canvas);
-			});
-		})();
+		//load game specific content
+		$.getScript("solitaire/solitaire.js", function(){
+			game.running = true;
+
+			//initialize game
+			game.game = solGame;
+			while(game.running){
+
+				game.game.update();
+				//primary animation loop
+				(function AnimLoop(){
+					SetupWebGL();
+					SetupDynamicBuffers();
+					DrawScene();
+					//Load required files
+					$.getScript("rAF.js", function(){
+						requestAnimationFrame(AnimLoop, canvas);
+					});
+				})();
+
+			}
+
+
+
+		})
+
 
 
 

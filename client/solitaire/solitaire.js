@@ -1,13 +1,17 @@
 
 
-Game = new Object();
+solGame = new Object();
 
-Game.init = initGame;
-Game.table = new Object();
-Game.table.cardStacks = new Array(7);
-Game.table.cardSuitStacks = new Array(4);
-Game.table.deck = new deck();
-Game.table.discard = new deck();
+solGame.init = initGame;
+solGame.deal = dealCards;
+solGame.update = update;
+solGame.present = present;
+solGame.table = new Object();
+solGame.table.cardStacks = new Array(7);
+solGame.table.cardSuitStacks = new Array(4);
+solGame.table.deck = new deck();
+solGame.table.discard = new deck();
+
 
 
 
@@ -34,6 +38,12 @@ function drawCards(){
 //Builds a deck from the discard pile
 function buildDeck(){
 
+
+
+}
+
+
+function update(){
 
 
 }
@@ -85,10 +95,16 @@ function initDeck(){
 
 //Initializes game
 function initGame(){
-
+//intialize deck
 this.table.deck.init();
+
+//intialize table
+
+
+//clear score(if/when score is implemented)
+
+//deal cards
+
 
 
 }
-
-Game.init();

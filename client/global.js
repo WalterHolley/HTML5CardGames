@@ -7,7 +7,11 @@ function Card(suit, color, value){
 
 
 
-
+var Events = {
+  LEFT_CLICK: 1,
+  RIGHT_CLICK: 2,
+  DRAG: 3,
+}
 
 var suit = {heart: "H", club: "C", diamond: "D", spade: "S" }
 
