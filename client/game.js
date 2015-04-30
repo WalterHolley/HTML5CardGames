@@ -22,9 +22,17 @@ game.run = run;
 game.init = InitWebGL;
 
 
+//Game Selection
+//load game specific content
+$.getScript("solitaire/solitaire.js", function(){
+
+	game.game = solGame;
+	game.running = true;
+}
+
 //Initialize OpenGL
 function init(){
-
+	InitWebGL();
 }
 
 //begins running the game
@@ -34,14 +42,16 @@ function run(){
 	tickInterval = 10000 / game.framesPerSecond;
 
 	while(game.running && (new Date).getTime() > gameTickNext ){
+		SetupWebGL();
 		game.game.update();
+		game.game.draw
 		gameTickNext += tickInterval;
 
 	}
 
-	game.game.draw();
 
-}
+		
+
 
 
 function InitWebGL()
@@ -57,6 +67,7 @@ function InitWebGL()
 	catch(ex)
 	{
 			alert("This Browser doesn't support webGL.  Please update or change your browser.");
+			return;
 	}
 
 	if(gl)
@@ -64,35 +75,6 @@ function InitWebGL()
 		//begin draw process
 		InitShaders();
 		SetupBuffers();
-
-		//load game specific content
-		$.getScript("solitaire/solitaire.js", function(){
-			game.running = true;
-
-			//initialize game
-			game.game = solGame;
-			while(game.running){
-
-				game.game.update();
-				//primary animation loop
-				(function AnimLoop(){
-					SetupWebGL();
-					SetupDynamicBuffers();
-					DrawScene();
-					//Load required files
-					$.getScript("rAF.js", function(){
-						requestAnimationFrame(AnimLoop, canvas);
-					});
-				})();
-
-			}
-
-
-
-		})
-
-
-
 
 	}
 	else
@@ -158,67 +140,7 @@ function MakeShader(src, type)
 }
 
 
-function SetupBuffers()
-{
 
-	var triangleVerticeColors = [
-	                             //red left triangle
-	                             1.0, 0.0, 0.0,
-	                             1.0, 1.0, 1.0,
-	                             1.0, 0.0, 0.0,
-
-	                             //blue right trianngle
-	                             0.0, 0.0, 1.0,
-	                             1.0, 1.0, 1.0,
-	                             0.0, 0.0, 1.0
-	                             ];
-
-
-
-	trianglesColorBuffer = gl.createBuffer();
-	gl.bindBuffer(gl.ARRAY_BUFFER, trianglesColorBuffer);
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(triangleVerticeColors),gl.STATIC_DRAW);
-}
-
-
-function SetupDynamicBuffers()
-{
-	//Limit x translation amount to -0.5 to 0.5
-
-	var x_translation = Math.sin(angle)/2.0;
-	var triangleVertices = [
-	                        //left triangle
-	                        -0.5 + x_translation, 0.5, 0.0,
-	                        0.0 + x_translation, 0.0, 0.0,
-	                        -0.5 + x_translation, -0.5, 0.0,
-	                        //right triangle
-	                        0.5 + x_translation, 0.5, 0.0,
-	                        0.0 + x_translation, 0.0, -0.5,
-	                        0.5 + x_translation, -0.5, 0.0
-	                        ];
-
-	angle += 0.01;
-
-
-	trianglesVerticeBuffer = gl.createBuffer();
-	gl.bindBuffer(gl.ARRAY_BUFFER, trianglesVerticeBuffer);
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(triangleVertices), gl.DYNAMIC_DRAW);
-}
-
-function DrawScene()
-{
-	vertexPositionAttribute = gl.getAttribLocation(glProgram, "aVertexPosition");
-	gl.enableVertexAttribArray(vertexPositionAttribute);
-	gl.bindBuffer(gl.ARRAY_BUFFER, trianglesVerticeBuffer);
-	gl.vertexAttribPointer(vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0);
-
-	vertexColorAttribute = gl.getAttribLocation(glProgram, "aVertexColor");
-	gl.enableVertexAttribArray(vertexColorAttribute);
-	gl.bindBuffer(gl.ARRAY_BUFFER, trianglesColorBuffer);
-	gl.vertexAttribPointer(vertexColorAttribute, 3, gl.FLOAT, false, 0, 0);
-
-	gl.drawArrays(gl.TRIANGLES, 0, 6);
-}
 
 function cleanupGame()
 {

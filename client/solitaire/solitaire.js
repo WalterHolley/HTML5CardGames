@@ -108,3 +108,66 @@ this.table.deck.init();
 
 
 }
+
+
+/*== GRAPHICS LOGIC ==*/
+function SetupBuffers(){
+
+    	var triangleVerticeColors = [
+    	                             //red left triangle
+    	                             1.0, 0.0, 0.0,
+    	                             1.0, 1.0, 1.0,
+    	                             1.0, 0.0, 0.0,
+
+    	                             //blue right trianngle
+    	                             0.0, 0.0, 1.0,
+    	                             1.0, 1.0, 1.0,
+    	                             0.0, 0.0, 1.0
+    	                             ];
+
+
+
+    	trianglesColorBuffer = gl.createBuffer();
+    	gl.bindBuffer(gl.ARRAY_BUFFER, trianglesColorBuffer);
+    	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(triangleVerticeColors),gl.STATIC_DRAW);
+}
+
+
+    function SetupDynamicBuffers()
+    {
+    	//Limit x translation amount to -0.5 to 0.5
+
+    	var x_translation = Math.sin(angle)/2.0;
+    	var triangleVertices = [
+    	                        //left triangle
+    	                        -0.5 + x_translation, 0.5, 0.0,
+    	                        0.0 + x_translation, 0.0, 0.0,
+    	                        -0.5 + x_translation, -0.5, 0.0,
+    	                        //right triangle
+    	                        0.5 + x_translation, 0.5, 0.0,
+    	                        0.0 + x_translation, 0.0, -0.5,
+    	                        0.5 + x_translation, -0.5, 0.0
+    	                        ];
+
+    	angle += 0.01;
+
+
+    	trianglesVerticeBuffer = gl.createBuffer();
+    	gl.bindBuffer(gl.ARRAY_BUFFER, trianglesVerticeBuffer);
+    	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(triangleVertices), gl.DYNAMIC_DRAW);
+    }
+
+    function DrawScene()
+    {
+    	vertexPositionAttribute = gl.getAttribLocation(glProgram, "aVertexPosition");
+    	gl.enableVertexAttribArray(vertexPositionAttribute);
+    	gl.bindBuffer(gl.ARRAY_BUFFER, trianglesVerticeBuffer);
+    	gl.vertexAttribPointer(vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0);
+
+    	vertexColorAttribute = gl.getAttribLocation(glProgram, "aVertexColor");
+    	gl.enableVertexAttribArray(vertexColorAttribute);
+    	gl.bindBuffer(gl.ARRAY_BUFFER, trianglesColorBuffer);
+    	gl.vertexAttribPointer(vertexColorAttribute, 3, gl.FLOAT, false, 0, 0);
+
+    	gl.drawArrays(gl.TRIANGLES, 0, 6);
+    }
