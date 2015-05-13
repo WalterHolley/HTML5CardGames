@@ -3,8 +3,22 @@
   <title>
     Card Games
   </title>
-  <script type="text/javascript" src="client/global.js"></script>
-  <script type="text/javascript" src="client/solitaire/solitaire.js"></script>
+  <script id="shader-vs" type="x-shader/x-vertex">
+    attribute vec3 aVertexPosition;
+    void main(void){
+      gl_position = vec4(aVertexPosition, 1.0);
+    }
+  </script>
+  <script id="shader-fs" type="x-shader/x-fragment">
+    attribute vec3 aVertexPosition;
+    void main(void){
+      gl_fragColor = vec4(1.0, 1.0, 1.0, 1.0);
+    }
+  </script>
+
+  <script data-main="client/global.js" src="lib/require.js"></script>
+  <script type="text/javascript" src="client/game.js"></script>
+
 </head>
 <body>
   <ul>

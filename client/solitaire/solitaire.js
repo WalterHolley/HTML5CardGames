@@ -3,9 +3,8 @@
 solGame = new Object();
 
 solGame.init = initGame;
-solGame.deal = dealCards;
 solGame.update = update;
-solGame.present = present;
+solGame.draw = draw;
 solGame.table = new Object();
 solGame.table.cardStacks = new Array(7);
 solGame.table.cardSuitStacks = new Array(4);
@@ -13,7 +12,24 @@ solGame.table.deck = new deck();
 solGame.table.discard = new deck();
 
 
+//Shuffles deck and deals cards to the table
+function dealCards(){
+  solGame.table.deck.shuffleDeck();
 
+  for(i = 0; i < solGame.table.cardStacks.length; i++){
+
+    for(c = 0; c <= i; c++){
+
+      var card = solGame.table.deck.drawCards(1);
+      if(i == c){
+        card.isFaceDown = false;
+      }
+      solGame.table.cardStacks[i].add(card);
+    }
+
+  }
+
+}
 
 function deck(){
   this.cards = new cardStack();
@@ -27,7 +43,7 @@ function deck(){
 
 
 //Returns up to three cards from the top of the deck
-function drawCards(){
+function drawCards(numberOfCards){
   if(numberOfCards == 1){
     return this.cards.shift();
   }
@@ -47,6 +63,11 @@ function update(){
 
 
 }
+
+function draw(){
+
+}
+
 
 //Randomizes the cards currently in the deck
 function shuffleDeck(){
@@ -104,7 +125,7 @@ this.table.deck.init();
 //clear score(if/when score is implemented)
 
 //deal cards
-
+dealCards();
 
 
 }

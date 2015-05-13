@@ -1,3 +1,7 @@
+//Developed By Walter Holley III
+/*Libs used:
+* Require.js
+*/
 
 var gl = null,
 canvas = null,
@@ -24,11 +28,13 @@ game.init = InitWebGL;
 
 //Game Selection
 //load game specific content
-$.getScript("solitaire/solitaire.js", function(){
+requirejs(["solitaire/solitaire"], function(){
 
+	console.log("Solitaire Loaaded.");
 	game.game = solGame;
 	game.running = true;
-}
+	init();
+});
 
 //Initialize OpenGL
 function init(){
@@ -44,13 +50,14 @@ function run(){
 	while(game.running && (new Date).getTime() > gameTickNext ){
 		SetupWebGL();
 		game.game.update();
-		game.game.draw
+		game.game.draw();
 		gameTickNext += tickInterval;
 
 	}
 
+	//TODO: Game Cleanup
+}
 
-		
 
 
 
@@ -72,9 +79,10 @@ function InitWebGL()
 
 	if(gl)
 	{
-		//begin draw process
+		//Initialize shaders
 		InitShaders();
-		SetupBuffers();
+		SetupWebGL();
+		game.run();
 
 	}
 	else
