@@ -1,11 +1,11 @@
 
 
-solGame = new Object();
+solGame = {};
 
 solGame.init = initGame;
 solGame.update = update;
 solGame.draw = draw;
-solGame.table = new Object();
+solGame.table = {};
 solGame.table.cardStacks = new Array(7);
 solGame.table.cardSuitStacks = new Array(4);
 solGame.table.deck = new deck();

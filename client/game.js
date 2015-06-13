@@ -17,7 +17,7 @@ trianglesColorBuffer = null;
 var angle = 0.0;
 
 //primary game object.  will controll gamestate and rendering
-var game = new Object();
+var game = {};
 game.running = false;
 game.gameStarted = false;
 game.game = null;
@@ -30,7 +30,7 @@ game.init = InitWebGL;
 //load game specific content
 requirejs(["solitaire/solitaire"], function(){
 
-	console.log("Solitaire Loaaded.");
+	console.log("Solitaire Loaded.");
 	game.game = solGame;
 	game.running = true;
 	init();
@@ -44,10 +44,10 @@ function init(){
 //begins running the game
 function run(){
 	game.running = true;
-	var gameTickNext = (new Date).getTime(),
+	var gameTickNext = (new Date()).getTime(),
 	tickInterval = 10000 / game.framesPerSecond;
 
-	while(game.running && (new Date).getTime() > gameTickNext ){
+	while(game.running && (new Date()).getTime() > gameTickNext ){
 		SetupWebGL();
 		game.game.update();
 		game.game.draw();
@@ -56,6 +56,7 @@ function run(){
 	}
 
 	//TODO: Game Cleanup
+
 }
 
 
