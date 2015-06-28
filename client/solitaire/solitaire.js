@@ -1,16 +1,17 @@
 
 
-solGame = {};
+solGame = {
+  init: initGame,
+  update: update,
+  draw: draw,
+  table: {
+    cardStacks: new Array(7),
+    cardSuitStacks: new Array(4),
+    deck: new deck(),
+    discard: new deck()
+  }
 
-solGame.init = initGame;
-solGame.update = update;
-solGame.draw = draw;
-solGame.table = {};
-solGame.table.cardStacks = new Array(7);
-solGame.table.cardSuitStacks = new Array(4);
-solGame.table.deck = new deck();
-solGame.table.discard = new deck();
-
+};
 
 //Shuffles deck and deals cards to the table
 function dealCards(){

@@ -17,13 +17,15 @@ trianglesColorBuffer = null;
 var angle = 0.0;
 
 //primary game object.  will controll gamestate and rendering
-var game = {};
-game.running = false;
-game.gameStarted = false;
-game.game = null;
-game.framesPerSecond = 60;
-game.run = run;
-game.init = InitWebGL;
+var game = {
+	running: false,
+	gameStarted: false,
+	game: null,
+	framesperSecond: 60,
+	run: run,
+	init: InitWebGL
+};
+
 
 
 //Game Selection
